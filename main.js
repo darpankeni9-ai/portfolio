@@ -1,5 +1,6 @@
 import './style.css'
 import { createClient } from '@supabase/supabase-js'
+import { AdminPanel } from './src/components/AdminPanel.js'
 
 // Supabase Configuration
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
@@ -47,6 +48,15 @@ async function updateSection(sectionName, newData) {
 
 // Make updateSection globally available
 window.updateSection = updateSection
+
+// Global notification function
+window.showNotification = (message) => {
+  const notification = document.createElement('div')
+  notification.className = 'notification'
+  notification.textContent = message
+  document.body.appendChild(notification)
+  setTimeout(() => notification.remove(), 3000)
+}
 
 // Particles.js Configuration
 const initParticles = () => {
@@ -779,6 +789,23 @@ document.addEventListener('DOMContentLoaded', async () => {
       }
     `
     document.head.appendChild(style)
+
+    // Add edit button
+    const editBtn = document.createElement('button')
+    editBtn.className = 'edit-btn'
+    editBtn.innerHTML = `
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+        <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+      </svg>
+    `
+    editBtn.title = 'Edit Portfolio'
+    editBtn.addEventListener('click', async () => {
+      const panel = await AdminPanel()
+      document.body.appendChild(panel)
+      document.body.style.overflow = 'hidden'
+    })
+    document.body.appendChild(editBtn)
   })
 })
 
