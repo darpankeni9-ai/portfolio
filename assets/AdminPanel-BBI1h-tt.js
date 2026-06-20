@@ -1,4 +1,4 @@
-import{u,i as g,g as x,f as k,s as $,a as q,b as w}from"./index-BTMPROc_.js";function E(s,n){const e=document.createElement("div");return e.className="editor-section",e.innerHTML=`
+import{u,i as g,g as x,f as k,s as $,a as q,b as w}from"./index-DIbVQhVy.js";function E(s,n){const e=document.createElement("div");return e.className="editor-section",e.innerHTML=`
     <div class="editor-header">
       <h3>Hero Section</h3>
       <p class="editor-desc">Main landing section with your name and title</p>
