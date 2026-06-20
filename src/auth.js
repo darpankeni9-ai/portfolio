@@ -123,7 +123,8 @@ export async function requireAuth() {
   return true
 }
 
-// Expose auth functions globally for easy access
+// Expose supabase client and auth functions globally
+window.supabase = supabase
 window.auth = {
   isAuthenticated,
   getCurrentUser,
