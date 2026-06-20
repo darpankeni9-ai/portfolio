@@ -129,6 +129,6 @@ function showNotification(message, type = 'success') {
 }
 
 // Expose globally
-window.updateSection = updateSection
+window.tion = updateSection
 window.showNotification = showNotification
 window.getPortfolioCache = () => portfolioCache

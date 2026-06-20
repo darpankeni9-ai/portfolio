@@ -388,13 +388,17 @@ const initTypingEffect = (portfolioData) => {
   const typingElement = document.querySelector('.typing-text')
   if (!typingElement || !portfolioData?.hero?.roles) return
 
-  const texts = portfolioData.hero.roles
+  const texts = Array.isArray(portfolioData.hero?.roles)
+  ? portfolioData.hero.roles.filter(role => role)
+  : ['Data Analyst']
   let textIndex = 0
   let charIndex = 0
   let isDeleting = false
-
+  
+  
   const type = () => {
-    const fullText = texts[textIndex]
+    const fullText = texts[textIndex] || ''
+    console.log('Roles:', texts)
     if (isDeleting) {
       charIndex--
     } else {
@@ -555,16 +559,17 @@ const addProgressBarStyles = () => {
 
 // Render portfolio HTML (same as before but reads from portfolioData)
 const renderPortfolio = (portfolioData) => {
-  const app = document.querySelector('#app')
   const hero = portfolioData.hero || {}
-  const about = portfolioData.about || {}
-  const skills = portfolioData.skills || []
-  const otherSkills = portfolioData.other_skills || []
-  const experience = portfolioData.experience || []
-  const projects = portfolioData.projects || []
-  const certifications = portfolioData.certifications || []
-  const stats = portfolioData.stats || []
-  const contact = portfolioData.contact || {}
+const about = portfolioData.about || {}
+
+const skills = Array.isArray(portfolioData.skills) ? portfolioData.skills : []
+const otherSkills = Array.isArray(portfolioData.other_skills) ? portfolioData.other_skills : []
+const experience = Array.isArray(portfolioData.experience) ? portfolioData.experience : []
+const projects = Array.isArray(portfolioData.projects) ? portfolioData.projects : []
+const certifications = Array.isArray(portfolioData.certifications) ? portfolioData.certifications : []
+const stats = Array.isArray(portfolioData.stats) ? portfolioData.stats : []
+
+const contact = portfolioData.contact || {}
 
   app.innerHTML = `
     <!-- Mouse Glow -->
@@ -683,7 +688,7 @@ const renderPortfolio = (portfolioData) => {
       <div class="max-w-7xl mx-auto">
         <div class="glass rounded-3xl p-8 md:p-12 fade-up">
           <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-            ${stats.map(stat => `
+            ${(Array.isArray(stats) ? stats : []).map(stat => `
               <div>
                 <p class="stat-number" data-target="${stat.value}" data-suffix="${stat.suffix}">0</p>
                 <p class="text-gray-400 mt-2">${stat.label}</p>
@@ -755,7 +760,7 @@ const renderPortfolio = (portfolioData) => {
           <div class="section-header mx-auto"></div>
         </div>
         <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          ${skills.map((skill, index) => `
+          ${(Array.isArray(skills) ? skills : []).map((skill, index) => `
             <div class="skill-card glass rounded-2xl fade-up" style="transition-delay: ${0.1 * (index + 1)}s">
               <div class="flex items-center gap-4 mb-4">
                 <div class="w-12 h-12 rounded-xl bg-gradient-to-br ${skill.color} flex items-center justify-center">
@@ -777,7 +782,7 @@ const renderPortfolio = (portfolioData) => {
         <div class="mt-12 fade-up">
           <h3 class="text-xl font-display font-bold text-center mb-8">Other Technologies</h3>
           <div class="flex flex-wrap justify-center gap-3">
-            ${otherSkills.map(skill => `
+           ${otherSkills.map(skill => `
               <span class="glass px-4 py-2 rounded-full text-sm text-gray-300 hover:border-neon-purple/50 border border-transparent transition-all cursor-default">${skill}</span>
             `).join('')}
           </div>
@@ -795,7 +800,7 @@ const renderPortfolio = (portfolioData) => {
         <div class="relative">
           <div class="hidden md:block absolute left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-neon-purple via-neon-cyan to-neon-pink"></div>
           <div class="space-y-12">
-            ${experience.map((exp, index) => `
+            ${(Array.isArray(experience) ? experience : []).map((exp, index) => `
               <div class="fade-up md:grid md:grid-cols-2 md:gap-8 items-center">
                 <div class="${index % 2 === 0 ? 'md:text-right md:pr-12' : 'md:pl-12 md:text-left md:order-2'} mb-4 md:mb-0">
                   <div class="glass rounded-2xl p-6 inline-block">
@@ -822,7 +827,7 @@ const renderPortfolio = (portfolioData) => {
           <div class="section-header mx-auto"></div>
         </div>
         <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          ${projects.map((project, index) => `
+          ${(Array.isArray(projects) ? projects : []).map((project, index) => `
             <div class="project-card glass rounded-2xl overflow-hidden fade-up" style="transition-delay: ${0.1 * (index + 1)}s">
               <div class="h-48 bg-gradient-to-br ${project.colors} flex items-center justify-center">
                 <div class="w-24 h-24 rounded-2xl bg-gradient-to-br ${project.iconColors} flex items-center justify-center">
@@ -859,7 +864,7 @@ const renderPortfolio = (portfolioData) => {
           <div class="section-header mx-auto"></div>
         </div>
         <div class="grid md:grid-cols-2 gap-6">
-          ${certifications.map((cert, index) => `
+          ${(Array.isArray(certifications) ? certifications : []).map((cert, index) => `
             <div class="cert-badge glass rounded-2xl fade-up" style="transition-delay: ${0.1 * (index + 1)}s">
               <div class="flex items-center gap-4">
                 <div class="w-14 h-14 rounded-xl bg-gradient-to-br ${cert.colors} flex items-center justify-center flex-shrink-0">
