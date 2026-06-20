@@ -1,4 +1,4 @@
-import { updateSection } from '../utils/supabase.js'
+import { updateSection } from '../database.js'
 
 const colorPresets = [
   'from-neon-purple/20 to-neon-cyan/20',

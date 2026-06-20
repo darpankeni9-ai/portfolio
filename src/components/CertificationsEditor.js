@@ -1,4 +1,4 @@
-import { updateSection } from '../utils/supabase.js'
+import { updateSection } from '../database.js'
 
 const colorPresets = [
   'from-yellow-400 to-yellow-600',

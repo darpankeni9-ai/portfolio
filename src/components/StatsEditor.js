@@ -1,4 +1,4 @@
-import { updateSection } from '../utils/supabase.js'
+import { updateSection } from '../database.js'
 
 export function StatsEditor(data, onSave) {
   const section = document.createElement('div')

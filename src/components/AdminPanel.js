@@ -6,7 +6,12 @@ import { ProjectsEditor } from './ProjectsEditor.js'
 import { CertificationsEditor } from './CertificationsEditor.js'
 import { StatsEditor } from './StatsEditor.js'
 import { ContactEditor } from './ContactEditor.js'
-import { fetchPortfolioData, getCachedData } from '../utils/supabase.js'
+import { isAuthenticated, getCurrentUser, signOut } from '../auth.js'
+import { fetchPortfolioData, getCachedData } from '../database.js'
+
+// Make supabase available globally
+import { supabase } from '../auth.js'
+window.supabase = supabase
 
 const tabs = [
   { id: 'hero', label: 'Hero', icon: '⭐' },
@@ -23,6 +28,13 @@ let currentTab = 'hero'
 let data = {}
 
 export async function AdminPanel() {
+  // Verify authentication first
+  const authenticated = await isAuthenticated()
+  if (!authenticated) {
+    window.location.hash = '#login'
+    return null
+  }
+
   const container = document.createElement('div')
   container.className = 'admin-panel'
 
@@ -30,14 +42,18 @@ export async function AdminPanel() {
     <div class="admin-header">
       <div class="admin-title">
         <h2>Portfolio Admin Panel</h2>
-        <p>Edit your portfolio content</p>
+        <p class="admin-user">Logged in as: <strong>${getCurrentUser()?.email || 'Admin'}</strong></p>
       </div>
-      <button class="close-admin-btn" id="close-admin">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <line x1="18" y1="6" x2="6" y2="18"></line>
-          <line x1="6" y1="6" x2="18" y2="18"></line>
-        </svg>
-      </button>
+      <div class="admin-actions">
+        <a href="#" class="view-site-btn" id="view-site">View Site</a>
+        <button class="logout-btn" id="logout-btn">Logout</button>
+        <button class="close-admin-btn" id="close-admin">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
     </div>
 
     <div class="admin-tabs">
@@ -55,8 +71,10 @@ export async function AdminPanel() {
   `
 
   // Fetch data
+  console.log('AdminPanel: Fetching portfolio data...')
   await fetchPortfolioData()
   data = getCachedData()
+  console.log('AdminPanel: Data loaded:', data)
 
   // Render initial tab
   renderTabContent(container, currentTab)
@@ -77,6 +95,21 @@ export async function AdminPanel() {
     document.body.style.overflow = ''
   })
 
+  // View site button
+  container.querySelector('#view-site').addEventListener('click', (e) => {
+    e.preventDefault()
+    container.remove()
+    document.body.style.overflow = ''
+    window.location.hash = ''
+  })
+
+  // Logout button
+  container.querySelector('#logout-btn').addEventListener('click', async () => {
+    if (confirm('Are you sure you want to logout?')) {
+      await signOut()
+    }
+  })
+
   return container
 }
 
@@ -85,8 +118,11 @@ function renderTabContent(container, tabId) {
   content.innerHTML = ''
 
   const onSave = (newData) => {
+    console.log(`AdminPanel: ${tabId} saved, updating cache`)
     data[tabId] = newData
   }
+
+  console.log(`AdminPanel: Rendering tab ${tabId}`)
 
   switch (tabId) {
     case 'hero':

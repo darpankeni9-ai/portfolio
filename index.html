@@ -4,9 +4,21 @@
   <meta charset="UTF-8" />
   <link rel="icon" type="image/svg+xml" href="/vite.svg" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Portfolio | Data Analyst & Developer</title>
+  <title>Darpan Keni | Data Analyst Portfolio</title>
+  <meta name="description" content="Data Analyst specializing in Power BI, SQL, and Python. View my portfolio showcasing data visualization projects, certifications, and professional experience." />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Darpan Keni | Data Analyst Portfolio" />
+  <meta property="og:description" content="Data Analyst specializing in Power BI, SQL, and Python. View my portfolio showcasing data visualization projects, certifications, and professional experience." />
+  <meta property="og:type" content="website" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <script>
     tailwind.config = {
       theme: {
@@ -18,28 +30,34 @@
           },
           colors: {
             'dark': {
-              900: '#0F172A',
-              800: '#131B2E',
-              700: '#1A2332',
-              600: '#243044',
+              900: '#0a0a0f',
+              800: '#12121a',
+              700: '#1a1a24',
+              600: '#22222e',
             },
             'neon': {
               purple: '#8B5CF6',
               cyan: '#06B6D4',
               pink: '#EC4899',
               blue: '#3B82F6',
+              green: '#22C55E',
             }
           }
         }
       }
     }
   </script>
-  <meta property="og:image" content="https://bolt.new/static/og_default.png">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:image" content="https://bolt.new/static/og_default.png">
 </head>
 <body class="bg-dark-900 text-white font-body overflow-x-hidden">
-  <div id="app"></div>
+  <div id="app">
+    <!-- Loading State -->
+    <div class="min-h-screen flex items-center justify-center">
+      <div class="text-center">
+        <div class="w-16 h-16 border-4 border-neon-purple border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+        <p class="text-gray-400">Loading portfolio...</p>
+      </div>
+    </div>
+  </div>
   <script type="module" src="/main.js"></script>
 </body>
 </html>

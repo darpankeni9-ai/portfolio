@@ -1,4 +1,4 @@
-import { updateSection } from '../utils/supabase.js'
+import { updateSection } from '../database.js'
 
 const colorOptions = ['cyan', 'purple', 'pink', 'blue', 'green', 'yellow']
 
