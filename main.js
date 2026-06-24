@@ -683,21 +683,7 @@ const contact = portfolioData.contact || {}
       </div>
     </section>
 
-    <!-- Statistics Section -->
-    <section class="py-16 px-6">
-      <div class="max-w-7xl mx-auto">
-        <div class="glass rounded-3xl p-8 md:p-12 fade-up">
-          <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-            ${(Array.isArray(stats) ? stats : []).map(stat => `
-              <div>
-                <p class="stat-number" data-target="${stat.value}" data-suffix="${stat.suffix}">0</p>
-                <p class="text-gray-400 mt-2">${stat.label}</p>
-              </div>
-            `).join('')}
-          </div>
-        </div>
-      </div>
-    </section>
+   
 
     <!-- About Section -->
     <section id="about" class="py-24 px-6">
